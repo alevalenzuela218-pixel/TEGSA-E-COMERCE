@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEGSA Iluminación | Luminarias para hogar, comercio y obras</title>
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<meta name="description" content="Comprá luminarias para interior y exterior con asesoramiento profesional. TEGSA Iluminación: soluciones para hogares, comercios y proyectos en Argentina.">
+<meta name="theme-color" content="#111820">
+<meta property="og:title" content="TEGSA Iluminación | La luz correcta cambia todo">
+<meta property="og:description" content="Encontrá la luminaria adecuada para cada ambiente y recibí asesoramiento profesional.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="/">
+      <img src="/img/logo.png" class="logo" alt="TEGSA">
+      <span><span class="name">TEGSA</span><span class="sub">Iluminación · Luminotecnia</span></span>
+    </a>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="search" placeholder="Buscar por nombre o código…">
+    </div>
+    <div class="bar-actions">
+      <a class="btn-quick-help" href="/asesoramiento">¿Necesitás ayuda?</a>
+      <a class="btn-admin" href="/admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Acceso privado</a>
+    </div>
+  </div>
+</header>
+<div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+
+<!-- HERO · AIDA: Atención → Interés → Deseo → Acción -->
+<section class="hero-conversion" id="inicio" aria-label="TEGSA Iluminación">
+  <div class="hero-copy">
+    <span class="hero-kicker">TEGSA · ILUMINACIÓN Y LUMINOTECNIA</span>
+    <h1>La iluminación que imaginás.<br><em>La solución que necesitás.</em></h1>
+    <p class="hero-lead">Encontrá la luminaria adecuada para cada ambiente, compará especificaciones y comprá con el respaldo de profesionales en iluminación.</p>
+    <div class="hero-actions">
+      <a href="#catalogo" class="hero-primary">Explorar luminarias <span>→</span></a>
+      <a href="/asesoramiento" class="hero-secondary">Necesito ayuda para elegir</a>
+    </div>
+    <div class="hero-proof">
+      <span>✓ Asesoramiento profesional</span>
+      <span>✓ Envíos a todo el país</span>
+      <span>✓ Compra online segura</span>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <div class="light-orb orb-a"></div><div class="light-orb orb-b"></div>
+    <div class="hero-lamp">
+      <span class="lamp-glow"></span><span class="lamp-head"></span><span class="lamp-stem"></span><span class="lamp-base"></span>
+    </div>
+    <div class="hero-float hf-1"><b>3000K</b><span>Luz cálida</span></div>
+    <div class="hero-float hf-2"><b>IP65</b><span>Exterior</span></div>
+  </div>
+</section>
+
+<!-- AIDA · INTERÉS: el usuario se reconoce en una necesidad -->
+<section class="need-section reveal">
+  <div class="section-heading">
+    <span class="eyebrow">ENCONTRÁ TU SOLUCIÓN</span>
+    <h2>¿Qué querés iluminar?</h2>
+    <p>Empezá por el ambiente y llegá más rápido a la luminaria que estás buscando.</p>
+  </div>
+  <div class="need-grid">
+    <a class="need-card need-home" href="#catalogo"><span class="need-icon">⌂</span><strong>Mi hogar</strong><small>Living · dormitorio · cocina · exterior</small><span class="need-arrow">→</span></a>
+    <a class="need-card need-business" href="#catalogo"><span class="need-icon">▦</span><strong>Mi comercio</strong><small>Locales · oficinas · exhibición · vidrieras</small><span class="need-arrow">→</span></a>
+    <a class="need-card need-outdoor" href="#catalogo" onclick="setUbic('exterior')"><span class="need-icon">✦</span><strong>Exterior</strong><small>Patios · frentes · jardines · seguridad</small><span class="need-arrow">→</span></a>
+    <a class="need-card need-project" href="/asesoramiento"><span class="need-icon">⌁</span><strong>Mi proyecto</strong><small>Necesito cálculo y selección profesional</small><span class="need-arrow">→</span></a>
+  </div>
+</section>
+
+<!-- AIDA · DESEO: beneficios claros -->
+<section class="value reveal">
+  <div class="value-in">
+    <div class="vcard"><span class="vicon">⌁</span><b>Elegí con criterio</b><span>Especificaciones claras para comparar antes de comprar.</span></div>
+    <div class="vcard"><span class="vicon">⌂</span><b>Para cada ambiente</b><span>Interior, exterior y soluciones profesionales.</span></div>
+    <div class="vcard"><span class="vicon">✓</span><b>Respaldo profesional</b><span>Asesoramiento en iluminación y luminotecnia.</span></div>
+    <div class="vcard"><span class="vicon">→</span><b>Comprá sin vueltas</b><span>Carrito online, pago seguro y atención directa.</span></div>
+  </div>
+</section>
+
+<!-- CATEGORÍAS -->
+<section class="chips reveal">
+  <div class="section-heading">
+    <span class="eyebrow">EXPLORÁ LA COLECCIÓN</span>
+    <h2>Encontrá tu luminaria</h2>
+    <p>Filtrá por tipo, temperatura, protección, precio y ubicación.</p>
+  </div>
+  <div class="catcards" id="chips"></div>
+</section>
+
+<section class="decision-strip reveal" aria-label="Ayuda para comprar">
+  <div><span class="eyebrow">ANTES DE COMPRAR</span><strong>¿No sabés cuántas luminarias necesitás?</strong><span>Mandanos una foto, plano o medidas y te orientamos.</span></div>
+  <a href="/asesoramiento">Quiero asesoramiento <span>→</span></a>
+</section>
+
+<section class="catalog-intro reveal" id="catalogo">
+  <div><span class="eyebrow">CATÁLOGO</span><h2>Elegí, compará y llevá la luz correcta</h2></div>
+  <a href="/asesoramiento" class="catalog-help">¿No sabés cuál elegir? <b>Te ayudamos →</b></a>
+</section>
+<div class="shell">
+  <aside class="filters">
+    <div class="fgroup"><h3><span class="dot"></span>Ubicación</h3><div id="f-ubic"></div></div>
+    <div class="fgroup"><h3><span class="dot"></span>Tipo</h3><div id="f-tipo"></div></div>
+    <div class="fgroup"><h3><span class="dot"></span>Temperatura</h3><div id="f-temp"></div></div>
+    <div class="fgroup"><h3><span class="dot"></span>Protección (IP)</h3><div id="f-ip"></div></div>
+    <div class="fgroup"><h3><span class="dot"></span>Precio</h3>
+      <div class="price-row"><input id="pmin" type="number" placeholder="mín"><span>–</span><input id="pmax" type="number" placeholder="máx"></div>
+    </div>
+    <button class="clearf" id="clear">Limpiar filtros</button>
+  </aside>
+  <section>
+    <h2 class="cat-title">Todas las luminarias</h2>
+    <div class="rbar">
+      <div class="count"><b id="rcount">0</b> productos</div>
+      <select id="sort">
+        <option value="rel">Relevancia</option>
+        <option value="pasc">Precio: menor a mayor</option>
+        <option value="pdesc">Precio: mayor a menor</option>
+        <option value="wdesc">Mayor potencia</option>
+      </select>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+<!-- Quiénes somos -->
+<section class="quienes reveal">
+  <div class="quienes-in">
+    <div class="q-img s-pro"></div>
+    <div class="q-txt">
+      <span class="kicker-dark">Quiénes somos</span>
+      <h2>Iluminación con criterio de ingeniería</h2>
+      <p>TEGSA es una empresa de Misiones especializada en iluminación, electricidad, seguridad y automatización. No solo vendemos luminarias: te ayudamos a elegir la luz correcta para cada ambiente, con el respaldo técnico de ingenieros y la tranquilidad de comprarle a una marca establecida.</p>
+      <div class="q-stats">
+        <div><b><span id="heroProductCount">0</span></b><span>productos en catálogo</span></div>
+        <div><b>Interior<br>y exterior</b><span>una solución por ambiente</span></div>
+        <div><b>3 años</b><span>de garantía</span></div>
+      </div>
+      <a href="/asesoramiento" class="cta-hero light">Conocé nuestro servicio de proyectos</a>
+    </div>
+  </div>
+</section>
+
+<!-- Servicios / beneficios -->
+<section class="servicios reveal">
+  <div class="serv-in">
+    <div class="serv"><div class="serv-ic">📐</div><b>Proyectos luminotécnicos</b><p>Cálculo de niveles, selección de luminarias y plano de montaje para obras, comercios y viviendas.</p></div>
+    <div class="serv"><div class="serv-ic">🚚</div><b>Envíos a todo el país</b><p>Tu pedido llega donde estés, con seguimiento.</p></div>
+    <div class="serv"><div class="serv-ic">🛡️</div><b>Garantía y respaldo</b><p>3 años en toda la línea y asesoría posventa.</p></div>
+    <div class="serv"><div class="serv-ic">💬</div><b>Atención directa</b><p>Te respondemos por WhatsApp para ayudarte a elegir.</p></div>
+  </div>
+</section>
+
+<!-- Franja de confianza -->
+<section class="trust reveal">
+  <div class="trust-in">
+    <div class="tr"><span class="tr-ic">⚙️</span><b>Ingeniería propia</b><span>Te asesora quien entiende de luminotecnia</span></div>
+    <div class="tr"><span class="tr-ic">🔒</span><b>Compra segura</b><span>Pagá con Mercado Pago</span></div>
+    <div class="tr"><span class="tr-ic">🚚</span><b>Envíos al país</b><span>Tu pedido, donde estés</span></div>
+    <div class="tr"><span class="tr-ic">🛡️</span><b>Garantía 3 años</b><span>Respaldo en toda la línea</span></div>
+  </div>
+</section>
+
+<!-- Preguntas frecuentes -->
+<section class="faq reveal">
+  <h2 class="sec-title">Preguntas frecuentes</h2>
+  <div class="faq-list" id="faq">
+    <details class="fq"><summary>¿Hacen envíos a todo el país?</summary><p>Sí, enviamos a todo el país. Coordinamos el envío según tu localidad; escribinos por WhatsApp y te pasamos el costo y los plazos.</p></details>
+    <details class="fq"><summary>¿Qué formas de pago aceptan?</summary><p>Podés pagar con Mercado Pago (tarjetas de crédito, débito y transferencia). Consultanos por promociones y cuotas vigentes.</p></details>
+    <details class="fq"><summary>¿Los productos tienen garantía?</summary><p>Toda la línea tiene garantía de fábrica de 3 años por desperfectos, más nuestra asesoría posventa.</p></details>
+    <details class="fq"><summary>¿Me ayudan a elegir la iluminación de mi proyecto?</summary><p>Sí. Somos ingenieros: hacemos el cálculo de niveles, la selección de luminarias y el plano de montaje para tu hogar, comercio u obra. Pedí tu <a href="/asesoramiento">asesoramiento sin cargo</a>.</p></details>
+    <details class="fq"><summary>¿Cómo compro?</summary><p>Elegí tus productos, agregalos al carrito y finalizá la compra. Si preferís, escribinos por WhatsApp y te ayudamos con el pedido.</p></details>
+  </div>
+</section>
+
+<!-- Captación de leads -->
+<section class="lead reveal">
+  <div class="lead-in">
+    <div class="lead-txt">
+      <span class="eyebrow">BENEFICIOS Y NOVEDADES</span>
+      <h2>Las buenas oportunidades se ven primero.</h2>
+      <p>Recibí promociones, novedades y consejos para elegir mejor tu iluminación.</p>
+    </div>
+    <div class="lead-form" id="leadForm">
+      <input id="lead-email" type="email" placeholder="Tu email" aria-label="Email">
+      <button id="lead-btn" class="cta-hero light">Quiero recibir ofertas</button>
+    </div>
+  </div>
+  <p class="lead-msg" id="leadMsg"></p>
+</section>
+
+<section class="cta-band">
+  <div class="cta-band-in">
+    <h2>Iluminá tu proyecto con la asesoría de quien sabe</h2>
+    <p>Contanos qué necesitás y un ingeniero te ayuda a elegir la luminaria justa.</p>
+    <a href="/asesoramiento" class="cta-hero light">Solicitar asesoramiento</a>
+  </div>
+</section>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "name":"TEGSA Iluminación",
+  "url":"/",
+  "description":"Luminarias, iluminación y asesoramiento luminotécnico para hogares, comercios y proyectos.",
+  "potentialAction":{"@type":"SearchAction","target":"/?q={search_term_string}","query-input":"required name=search_term_string"}
+}
+</script>
+<script src="/site.js"></script>
+<script src="/anim.js"></script>
+<script src="/cart.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

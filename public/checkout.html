@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout · TEGSA Iluminación</title>
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="/"><img src="/img/logo.png" class="logo" alt="TEGSA">
+  <span><span class="name">TEGSA</span><span class="sub">Iluminación · Luminotecnia</span></span></a>
+  <div class="bar-actions"></div>
+</div></header>
+<div class="co">
+  <h1>Finalizar compra</h1>
+  <div class="co-grid">
+    <div>
+      <div class="fld"><label>Nombre y apellido *</label><input id="c-nombre" required></div>
+      <div class="fld"><label>Email *</label><input id="c-email" type="email" required></div>
+      <div class="fld"><label>Teléfono</label><input id="c-tel"></div>
+      <div class="fld"><label>DNI / CUIT (para facturación)</label><input id="c-doc"></div>
+    </div>
+    <div class="summary">
+      <h3>Tu pedido</h3>
+      <div id="lines"></div>
+      <div class="sline tot"><span>Total</span><b id="tot">$0</b></div>
+      <button class="cta-buy" id="pay" style="margin-top:14px;border:none;width:100%">Confirmar pedido</button>
+      <p class="co-msg" id="msg">El pago se procesa con Mercado Pago. No guardamos datos de tarjeta.</p>
+    </div>
+  </div>
+</div>
+<script src="/site.js"></script>
+<script src="/anim.js"></script>
+<script src="/cart.js"></script>
+<script src="/checkout.js"></script>
+</body>
+</html>

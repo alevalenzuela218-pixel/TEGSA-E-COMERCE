@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="p-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#241d16"/><stop offset="1" stop-color="#5a4326"/></linearGradient>
+<linearGradient id="p-cone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4c777" stop-opacity=".8"/><stop offset="1" stop-color="#f4c777" stop-opacity="0"/></linearGradient>
+</defs>
+<rect width="1200" height="380" fill="url(#p-bg)"/>
+<g stroke="#e8c98f" stroke-opacity=".16" stroke-width="1">
+<path d="M620 40 H1200 M620 100 H1200 M620 160 H1200 M620 220 H1200 M620 280 H1200 M620 340 H1200"/>
+<path d="M680 0 V380 M760 0 V380 M840 0 V380 M920 0 V380 M1000 0 V380 M1080 0 V380 M1160 0 V380"/>
+</g>
+<rect x="900" y="60" width="120" height="20" rx="4" fill="#2a2118"/>
+<rect x="948" y="80" width="24" height="10" fill="#3a2e20"/>
+<circle cx="960" cy="92" r="7" fill="#ffe9bf"/>
+<path d="M960 92 L840 300 L1080 300 Z" fill="url(#p-cone)"/>
+<g stroke="#f4c777" stroke-width="1.4" fill="none" stroke-opacity=".8">
+<path d="M900 250 h120" stroke-dasharray="4 4"/><path d="M872 300 h236" stroke-dasharray="4 4"/>
+</g>
+<g fill="#f4c777" font-family="monospace" font-size="13" opacity=".85"><text x="1030" y="254">450 lx</text><text x="1112" y="304">180 lx</text></g>
+<path d="M640 330 h140 M640 326 v8 M780 326 v8" stroke="#e8c98f" stroke-width="1.5" stroke-opacity=".5"/>
+</svg>

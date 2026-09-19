@@ -1,0 +1,23 @@
+# Blueprint de Render. Con esto, "New > Blueprint" apuntando a tu repo
+# crea el servicio web y la base Postgres de una.
+services:
+  - type: web
+    name: tegsa-iluminacion
+    runtime: node
+    plan: free            # para testeo; pasá a "starter" para producción (sin cold start)
+    buildCommand: npm install
+    startCommand: npm run ensure && npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tegsa-db
+          property: connectionString
+      - key: ADMIN_USER
+        sync: false        # lo cargás a mano en el dashboard
+      - key: ADMIN_PASSWORD
+        sync: false
+
+databases:
+  - name: tegsa-db
+    plan: free            # ojo: la base free de Render expira; el esquema vive en el repo
+    databaseName: tegsa

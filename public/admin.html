@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel · TEGSA Iluminación</title>
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="/"><img src="/img/logo.png" class="logo" alt="TEGSA">
+  <span><span class="name">TEGSA</span><span class="sub">Panel de gestión</span></span></a>
+  <div class="bar-actions"><a class="btn-admin" href="/admin/analytics" style="margin-right:8px">Analítica</a><a class="btn-admin" href="/">Ver tienda</a></div>
+</div></header>
+<div class="admin">
+  <h1>Panel de gestión</h1>
+  <p>Este panel y la tienda oficial utilizan la <strong>misma base de catálogo</strong>. Al guardar, el producto queda disponible en la tienda sin una segunda carga.</p>
+  <div class="admin-card" style="margin:0 0 18px;padding:18px">
+  <h2 style="margin:0 0 6px">Catálogo y sincronización</h2>
+  <div id="catalogStats" class="an-sub">Cargando…</div>
+  <div id="syncStatus" class="an-sub" style="margin-top:6px">Comprobando…</div>
+  <div style="margin-top:12px"><button id="reseed" class="save" style="padding:10px 16px">Recargar catálogo base</button> <span id="reseedMsg" class="an-sub" style="color:var(--ink-faint)"></span></div>
+</div>
+
+<section class="admin-card" style="margin:0 0 24px;padding:20px">
+  <h2 style="margin:0 0 6px">Agregar / publicar producto</h2>
+  <p class="an-sub">Completá los datos mínimos. Al guardar se escribe en PostgreSQL y queda visible en la página oficial si el estado es Activo.</p>
+  <form id="productForm" class="product-form" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+    <input name="sku" required placeholder="SKU *">
+    <input name="nombre" required placeholder="Nombre del producto *">
+    <input name="marca" required placeholder="Marca *" value="TEGSA">
+    <select name="type_id" id="p-type" required></select>
+    <select name="ubicacion" required><option value="interior">Interior</option><option value="exterior">Exterior</option><option value="interior_exterior">Interior / Exterior</option></select>
+    <select name="status"><option value="activo">Activo — publicar</option><option value="borrador">Borrador</option><option value="pausado">Pausado</option></select>
+    <input name="precio" type="number" min="0" step="0.01" placeholder="Precio ARS">
+    <input name="potencia_w" type="number" min="0" step="0.01" placeholder="Potencia W">
+    <input name="flujo_lm" type="number" min="0" placeholder="Flujo lm">
+    <input name="temp_kelvin" type="number" min="0" placeholder="Temperatura K">
+    <input name="ip" type="number" min="0" placeholder="IP">
+    <input name="tension_v" placeholder="Tensión (ej. 220V)">
+    <input name="imagen_url" type="url" placeholder="URL de imagen">
+    <input name="variante" placeholder="Variante">
+    <input name="descripcion" placeholder="Descripción" style="grid-column:span 2">
+    <button type="submit" class="save" style="padding:11px 16px">Guardar y publicar en la tienda</button>
+  </form>
+</section>
+  <div style="overflow-x:auto"><table>
+    <thead><tr><th>Producto</th><th>Tipo</th><th>Precio (ARS)</th><th>Stock</th><th>Foto (URL)</th><th></th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+
+  <section class="consultas">
+    <h2>Consultas de asesoramiento</h2>
+    <p class="an-sub" style="color:var(--ink-soft)">Solicitudes de proyectos y asesoría que llegan desde el sitio.</p>
+    <div id="consultas"></div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+<script src="/site.js"></script>
+<script src="/anim.js"></script>
+<script src="/admin.js"></script>
+</body>
+</html>

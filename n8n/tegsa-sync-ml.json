@@ -1,0 +1,70 @@
+{
+  "name": "TEGSA — Sync Mercado Libre (precio y stock)",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerMode": "listenTrigger",
+        "channelName": "n8n_events",
+        "options": {}
+      },
+      "id": "c8d2b002-0000-4000-a000-000000000001",
+      "name": "Evento outbox (LISTEN)",
+      "type": "n8n-nodes-base.postgresTrigger",
+      "typeVersion": 1,
+      "position": [220, 320],
+      "credentials": { "postgres": { "id": "REEMPLAZAR", "name": "TEGSA Postgres" } }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Variantes con cambio de precio/stock pendiente que están publicadas en ML,\n-- con el precio y el stock disponible actuales (fuente de verdad = la base).\nSELECT DISTINCT ON (v.id)\n       v.id            AS variant_id,\n       cl.external_id  AS item_id,\n       v.precio        AS price,\n       (v.stock_qty - v.reservado_qty) AS available_quantity\nFROM outbox_events o\nJOIN product_variants v ON v.id = o.aggregate_id\nJOIN channel_listings cl ON cl.variant_id = v.id\n     AND cl.channel = 'mercadolibre' AND cl.status = 'publicado'\nWHERE o.status = 'pending'\n  AND o.event_type IN ('price.changed','stock.changed');",
+        "options": {}
+      },
+      "id": "c8d2b002-0000-4000-a000-000000000002",
+      "name": "Traer para ML",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [440, 320],
+      "credentials": { "postgres": { "id": "REEMPLAZAR", "name": "TEGSA Postgres" } }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.mercadolibre.com/items/{{ $json.item_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"price\": {{ $json.price }},\n  \"available_quantity\": {{ $json.available_quantity }}\n}",
+        "options": {}
+      },
+      "id": "c8d2b002-0000-4000-a000-000000000003",
+      "name": "PUT /items (Mercado Libre)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [660, 320],
+      "credentials": { "oAuth2Api": { "id": "REEMPLAZAR", "name": "Mercado Libre OAuth2" } }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Marca sincronizada la publicación y procesados sus eventos de precio/stock.\nUPDATE channel_listings SET last_synced_at = now(), sync_error = NULL\nWHERE variant_id = '{{ $('Traer para ML').item.json.variant_id }}' AND channel = 'mercadolibre';\nUPDATE outbox_events SET status = 'processed', processed_at = now()\nWHERE aggregate_id = '{{ $('Traer para ML').item.json.variant_id }}'\n  AND event_type IN ('price.changed','stock.changed') AND status = 'pending';",
+        "options": {}
+      },
+      "id": "c8d2b002-0000-4000-a000-000000000004",
+      "name": "Marcar sincronizado",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [880, 320],
+      "credentials": { "postgres": { "id": "REEMPLAZAR", "name": "TEGSA Postgres" } }
+    }
+  ],
+  "connections": {
+    "Evento outbox (LISTEN)": { "main": [[{ "node": "Traer para ML", "type": "main", "index": 0 }]] },
+    "Traer para ML": { "main": [[{ "node": "PUT /items (Mercado Libre)", "type": "main", "index": 0 }]] },
+    "PUT /items (Mercado Libre)": { "main": [[{ "node": "Marcar sincronizado", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "description": "Escucha price.changed/stock.changed y actualiza precio y stock en las publicaciones de Mercado Libre vinculadas." }
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="w-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a2f0e"/><stop offset="1" stop-color="#8a5a16"/></linearGradient>
+<radialGradient id="w-glow" cx="50%" cy="30%" r="55%"><stop offset="0" stop-color="#ffcf7a" stop-opacity=".95"/><stop offset="1" stop-color="#ffcf7a" stop-opacity="0"/></radialGradient>
+<linearGradient id="w-cone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe0a0" stop-opacity=".85"/><stop offset="1" stop-color="#ffe0a0" stop-opacity="0"/></linearGradient>
+</defs>
+<rect width="1200" height="380" fill="url(#w-bg)"/>
+<rect x="820" y="0" width="380" height="380" fill="url(#w-glow)"/>
+<path d="M760 300 L1200 300 L1200 380 L760 380 Z" fill="#3a2409" opacity=".5"/>
+<line x1="1010" y1="0" x2="1010" y2="120" stroke="#2a1a06" stroke-width="3"/>
+<path d="M980 120 q30 -26 60 0 l-14 26 h-32 z" fill="#241605"/>
+<circle cx="1010" cy="150" r="12" fill="#ffe9bf"/>
+<path d="M1010 158 L905 330 L1115 330 Z" fill="url(#w-cone)"/>
+<ellipse cx="1010" cy="330" rx="110" ry="16" fill="#ffcf7a" opacity=".55"/>
+<path d="M840 300 q0 -60 60 -60 h40 v60 z" fill="#2f1d07" opacity=".8"/>
+<rect x="1120" y="250" width="34" height="50" rx="4" fill="#2a1a06"/>
+<path d="M1137 250 q-30 -50 0 -90 q30 40 0 90" fill="#3c6b3a" opacity=".85"/>
+</svg>

@@ -1,0 +1,94 @@
+{
+  "name": "TEGSA — Notificaciones (ventas y consultas)",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerMode": "listenTrigger",
+        "channelName": "n8n_events",
+        "options": {}
+      },
+      "id": "b7c1a001-0000-4000-a000-000000000001",
+      "name": "Evento outbox (LISTEN)",
+      "type": "n8n-nodes-base.postgresTrigger",
+      "typeVersion": 1,
+      "position": [220, 320],
+      "credentials": {
+        "postgres": { "id": "REEMPLAZAR", "name": "TEGSA Postgres" }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, event_type, aggregate_type, aggregate_id, payload\nFROM outbox_events\nWHERE status = 'pending'\n  AND event_type IN ('order.created','consulta.created')\nORDER BY created_at\nLIMIT 50;",
+        "options": {}
+      },
+      "id": "b7c1a001-0000-4000-a000-000000000002",
+      "name": "Traer pendientes",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [440, 320],
+      "credentials": {
+        "postgres": { "id": "REEMPLAZAR", "name": "TEGSA Postgres" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Convierte cada evento del outbox en un aviso (solo ventas y consultas).\nconst out = [];\nfor (const item of $input.all()) {\n  const e = item.json;\n  const p = e.payload || {};\n  if (e.event_type === 'order.created') {\n    out.push({ json: {\n      id: e.id,\n      asunto: `🛒 Nueva venta — Pedido ${String(e.aggregate_id).slice(0, 8)}`,\n      cuerpo: `Se registró una venta en la tienda.\\n\\nCliente: ${p.cliente_nombre || '-'}\\nEmail: ${p.cliente_email || '-'}\\nTeléfono: ${p.cliente_telefono || '-'}\\nTotal: $${p.total || '-'}\\nCanal: ${p.channel || 'web'}\\n\\nRevisá el pedido en el panel.`\n    }});\n  } else if (e.event_type === 'consulta.created') {\n    out.push({ json: {\n      id: e.id,\n      asunto: `💡 Nueva consulta de asesoramiento — ${p.nombre || ''}`,\n      cuerpo: `Nuevo pedido de asesoramiento / proyecto.\\n\\nNombre: ${p.nombre || '-'}\\nContacto: ${[p.email, p.telefono].filter(Boolean).join(' · ') || '-'}\\nTipo de proyecto: ${p.tipo_proyecto || '-'}\\nMensaje: ${p.mensaje || '-'}`\n    }});\n  }\n}\nreturn out;"
+      },
+      "id": "b7c1a001-0000-4000-a000-000000000003",
+      "name": "Armar avisos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 220]
+    },
+    {
+      "parameters": {
+        "sendTo": "tu-email@dominio.com",
+        "subject": "={{ $json.asunto }}",
+        "emailType": "text",
+        "message": "={{ $json.cuerpo }}",
+        "options": {}
+      },
+      "id": "b7c1a001-0000-4000-a000-000000000004",
+      "name": "Enviar aviso (Gmail)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [880, 220],
+      "credentials": {
+        "gmailOAuth2": { "id": "REEMPLAZAR", "name": "TEGSA Gmail" }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE outbox_events\nSET status = 'processed', processed_at = now()\nWHERE id = '{{ $json.id }}';",
+        "options": {}
+      },
+      "id": "b7c1a001-0000-4000-a000-000000000005",
+      "name": "Marcar procesado",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [660, 440],
+      "credentials": {
+        "postgres": { "id": "REEMPLAZAR", "name": "TEGSA Postgres" }
+      }
+    }
+  ],
+  "connections": {
+    "Evento outbox (LISTEN)": {
+      "main": [[{ "node": "Traer pendientes", "type": "main", "index": 0 }]]
+    },
+    "Traer pendientes": {
+      "main": [[
+        { "node": "Armar avisos", "type": "main", "index": 0 },
+        { "node": "Marcar procesado", "type": "main", "index": 0 }
+      ]]
+    },
+    "Armar avisos": {
+      "main": [[{ "node": "Enviar aviso (Gmail)", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "description": "Escucha la tabla outbox_events de TEGSA Iluminación y notifica ventas y consultas de asesoramiento." }
+}

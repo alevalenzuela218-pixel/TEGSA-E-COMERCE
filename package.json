@@ -1,0 +1,23 @@
+{
+  "name": "tegsa-iluminacion",
+  "version": "0.1.0",
+  "description": "E-commerce de luminarias y accesorios luminotécnicos — TEGSA",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "migrate": "node db/migrate.js",
+    "seed": "node db/seed.js",
+    "ensure": "node db/ensure.js",
+    "setup": "npm run migrate && npm run seed",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}

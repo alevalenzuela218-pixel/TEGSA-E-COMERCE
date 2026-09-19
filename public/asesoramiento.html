@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asesoramiento y proyectos luminotécnicos · TEGSA</title>
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<meta name="description" content="Diseño e ingeniería de iluminación para hogar, comercio, oficina y obra. Cálculo de niveles, selección de luminarias y plano de montaje.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="/"><img src="/img/logo.png" class="logo" alt="TEGSA">
+  <span><span class="name">TEGSA</span><span class="sub">Iluminación · Luminotecnia</span></span></a>
+  <div class="bar-actions"><a class="btn-admin" href="/">Ver catálogo</a></div>
+</div></header>
+
+<!-- Atención + Deseo -->
+<section class="aida-hero">
+  <div class="aida-in s-pro">
+    <span class="kicker">Servicio profesional · Ingeniería</span>
+    <h1>Asesoramiento y proyectos luminotécnicos</h1>
+    <p>No es solo comprar luminarias: es lograr la luz correcta. Somos ingenieros y diseñamos la iluminación de tu hogar, comercio, oficina u obra para que cada ambiente se vea —y funcione— como tiene que verse.</p>
+  </div>
+</section>
+
+<div class="co">
+  <div class="co-grid">
+    <div>
+      <!-- Interés: cómo trabajamos -->
+      <div class="pasos">
+        <div class="paso"><div class="num">01</div><b>Relevamiento</b><span>Entendemos el espacio, el uso y tu estética.</span></div>
+        <div class="paso"><div class="num">02</div><b>Cálculo y diseño</b><span>Niveles de iluminación, temperatura y ubicación.</span></div>
+        <div class="paso"><div class="num">03</div><b>Propuesta y montaje</b><span>Luminarias, presupuesto y plano listo para instalar.</span></div>
+      </div>
+
+      <!-- Acción: formulario -->
+      <h2 style="font-family:var(--display);font-size:20px;margin:0 0 4px">Contanos tu proyecto</h2>
+      <p class="an-sub" style="color:var(--ink-soft);margin:0 0 16px">Te respondemos con una propuesta a medida. Sin compromiso.</p>
+      <div id="form">
+        <div class="fld"><label>Nombre y apellido *</label><input id="f-nombre"></div>
+        <div class="fld"><label>Email</label><input id="f-email" type="email"></div>
+        <div class="fld"><label>Teléfono / WhatsApp</label><input id="f-tel"></div>
+        <div class="fld"><label>Tipo de proyecto</label>
+          <select id="f-tipo">
+            <option value="">Elegí una opción…</option>
+            <option>Hogar / vivienda</option>
+            <option>Comercio / local</option>
+            <option>Oficina</option>
+            <option>Obra / construcción</option>
+            <option>Espacio exterior / vía pública</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="fld"><label>Contanos qué necesitás</label><textarea id="f-msg" placeholder="Ambientes, metros, plazos, lo que tengas…"></textarea></div>
+        <button class="cta-buy" id="send" style="border:none;width:100%;margin-top:6px">Enviar consulta</button>
+        <p class="an-sub" id="msg" style="margin-top:10px;color:var(--ink-faint)">* Dejanos al menos el nombre y un medio de contacto.</p>
+      </div>
+    </div>
+
+    <!-- Deseo: qué incluye -->
+    <aside class="summary">
+      <h3>Qué incluye</h3>
+      <ul class="incluye">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Cálculo de niveles de iluminación (lux)</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Selección de luminarias y temperatura de color</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Plano de montaje y potencia requerida</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Presupuesto de materiales y mano de obra</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Asesoría en ahorro energético</li>
+      </ul>
+    </aside>
+  </div>
+</div>
+<script src="/site.js"></script>
+<script src="/anim.js"></script>
+<script src="/asesoramiento.js"></script>
+</body>
+</html>
