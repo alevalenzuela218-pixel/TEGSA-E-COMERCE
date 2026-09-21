@@ -1,13 +1,13 @@
 // Carrito compartido (se incluye en todas las páginas del storefront).
 // Estado en localStorage, privado por navegador.
 const CART_KEY = "tegsa_cart_v1";
-const ars = (n) => Number(n) > 0
+var ars = (n) => Number(n) > 0
   ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(n)
   : "Consultar";
 
 const Cart = {
   read() { try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } },
-  write(c) { try { localStorage.setItem(CART_KEY, JSON.stringify(c)); } catch {} render(); },
+  write(c) { try { localStorage.setItem(CART_KEY, JSON.stringify(c)); } catch {} renderCart(); },
   count() { return this.read().reduce((s, i) => s + i.cantidad, 0); },
   total() { return this.read().reduce((s, i) => s + i.precio * i.cantidad, 0); },
   add(item) {
@@ -49,13 +49,13 @@ function mount() {
     document.body.appendChild(d);
     document.getElementById("cartClose").onclick = closeDrawer;
   }
-  render();
+  renderCart();
 }
 function openDrawer() { document.getElementById("cartOverlay")?.classList.add("on"); }
 function closeDrawer() { document.getElementById("cartOverlay")?.classList.remove("on"); }
 window.closeDrawer = closeDrawer;
 
-function render() {
+function renderCart() {
   const c = Cart.read();
   const cc = document.getElementById("cartCount");
   if (cc) { cc.textContent = Cart.count(); cc.style.display = Cart.count() ? "grid" : "none"; }

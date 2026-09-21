@@ -1,4 +1,4 @@
-const ars = (n) => n > 0
+var ars = (n) => n > 0
   ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(n)
   : "Consultar precio";
 const glow = (b) => ({ calida: "#f4b657", neutra: "#e6d3ad", fria: "#9ecbe4" }[b] || "#cfd6dd");
@@ -20,8 +20,6 @@ async function main() {
 
   // filas de especificaciones (solo las que tienen valor)
   const specs = [
-    row("Marca", p.marca),
-    row("Proveedor", a.proveedor || "MAZ Iluminación"),
     row("Tipo", p.tipo),
     row("Ubicación", ubicLabel[p.ubicacion] || p.ubicacion),
     row("Potencia", p.potencia_w ? `${p.potencia_w} W` : null),
@@ -54,7 +52,7 @@ async function main() {
     <div class="pd-top">
       <div class="pd-vis" style="background:radial-gradient(circle at 50% 42%, ${glow(p.temp_band)}55, transparent 70%), var(--surface)">${p.imagen_url ? `<img class="photo" src="${p.imagen_url}" alt="${p.nombre}">` : lumSVG()}</div>
       <div>
-        <div class="pd-tipo">${p.tipo} · ${p.marca}</div>
+        <div class="pd-tipo">${p.tipo}</div>
         <h1>${p.nombre}</h1>
         <div class="sku">${p.sku}</div>
         <div class="price">${ars(Number(p.precio))}</div>

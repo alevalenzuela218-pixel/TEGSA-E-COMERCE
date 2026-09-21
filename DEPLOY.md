@@ -1,59 +1,46 @@
-# Deploy — GitHub + Render (paso a paso)
+# Cómo publicar cambios (a prueba de errores)
 
-Tiempo estimado: ~10 minutos. Necesitás una cuenta de GitHub y una de Render
-(el plan free alcanza para testeo).
+El problema que más te trabó no fue el código: fue subir cambios **incompletos**.
+Arrastrar archivos sueltos a GitHub actualiza solo los que arrastrás, y tu web
+queda mezclada (mitad nueva, mitad vieja). Esta guía lo elimina.
 
-## 1. Subir el repo a GitHub
+## Método recomendado: GitHub Desktop (subís TODO, siempre)
 
-Desde la carpeta del proyecto (ya viene con git inicializado y un commit):
+1. Instalá **GitHub Desktop** (https://desktop.github.com) e iniciá sesión.
+2. *File → Clone repository* → elegí `TEGSA-ILUMINACI-N`. Se descarga a una
+   carpeta local.
+3. Cuando te pase una versión nueva: **descomprimí el ZIP y copiá TODO su
+   contenido dentro de esa carpeta local, reemplazando** los archivos.
+4. En GitHub Desktop vas a ver, a la izquierda, la lista de **todos** los
+   archivos que cambiaron. Escribí un mensaje abajo (ej. "actualización") y
+   apretá **Commit to main**.
+5. Arriba, **Push origin**. Listo: subió todo junto, sin olvidos.
 
-```bash
-# creá un repo vacío en github.com/new (por ejemplo: tegsa-iluminacion)
-git remote add origin https://github.com/TU_USUARIO/tegsa-iluminacion.git
-git branch -M main
-git push -u origin main
-```
+> Con esto no volvés a tener versiones mezcladas: GitHub Desktop detecta y sube
+> todos los cambios de una, incluidos los archivos dentro de `public/`, `src/`
+> y `db/`.
 
-Si preferís arrancar el git de cero: borrá la carpeta `.git`, y hacé
-`git init && git add . && git commit -m "init"` antes del push.
+## En Render (una sola vez)
 
-## 2. Crear los servicios en Render
+- Tu web service → **Settings → Build & Deploy** → **Auto-Deploy = Yes**.
+- Rama: **main**.
+- Con eso, cada *Push* dispara el deploy solo.
 
-1. Entrá a [dashboard.render.com](https://dashboard.render.com) → **New > Blueprint**.
-2. Conectá tu cuenta de GitHub y elegí el repo. Render lee el `render.yaml` y
-   te propone crear **un web service** (`tegsa-iluminacion`) y **una base
-   Postgres** (`tegsa-db`). Confirmá.
-3. En el web service, sección **Environment**, cargá:
-   - `ADMIN_USER` → el usuario del panel (ej. `admin`)
-   - `ADMIN_PASSWORD` → una clave fuerte
-   - `MP_ACCESS_TOKEN` → (opcional) tu token de Mercado Pago; sin esto, el
-     checkout registra el pedido sin cobro online.
-   > `DATABASE_URL` se completa sola desde la base (ya está en el `render.yaml`).
-4. Esperá a que termine el primer deploy (el log debe decir
-   `TEGSA Iluminación escuchando en :10000`).
+## Verificar que la versión NUEVA quedó publicada (el sello)
 
-## 3. Inicializar la base (una sola vez)
+Esto es lo que te da certeza, sin adivinar:
 
-En el web service → pestaña **Shell**:
+1. Esperá en Render a que el deploy diga **"Deploy live"** (verde).
+2. Abrí en tu navegador: **`tu-web.onrender.com/api/version`**
+   - Tiene que mostrar la versión que te dije (ej. `{"version":"1.1.0", ...}`).
+   - Si muestra una versión más vieja → el deploy no entró (revisá Auto-Deploy o
+     que el Push haya subido).
+3. También aparece abajo de todo en el **footer** de la web: `v1.1.0 (fecha)`.
+4. Siempre, al abrir la web: **Ctrl + Shift + R** (refresco forzado) para que el
+   navegador no te muestre la versión cacheada.
 
-```bash
-npm run setup      # aplica el esquema y carga el catálogo
-```
+## Regla de oro
 
-Listo. Abrí la URL del servicio (`https://tegsa-iluminacion.onrender.com`):
-
-- Tienda: `/`
-- Panel: `/admin` (usuario/clave que cargaste)
-- Health check: `/healthz`
-
-## Notas
-
-- **Plan free**: el servicio se duerme tras 15 min de inactividad (primer
-  acceso tarda ~30 s) y la base free expira con el tiempo. Perfecto para
-  testeo. Para producción: web service **Starter** y base **Basic**.
-- **Redeploys**: cada `git push` a `main` redeploya solo. El `setup` NO se
-  vuelve a correr (borraría datos); sólo lo corrés de nuevo si querés recargar
-  el catálogo desde cero.
-- **Actualizar catálogo sin borrar**: en vez de `npm run setup`, corré sólo
-  `npm run migrate` (idempotente) y cargá/edita productos desde `/admin`.
-- **HTTPS**: Render lo provee automáticamente.
+> Si el `/api/version` de tu web no coincide con la versión que te pasé, **no
+> estás viendo el código nuevo** — no es un problema de programación, es de
+> publicación. Repetí el Commit + Push completo.

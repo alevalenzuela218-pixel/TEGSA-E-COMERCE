@@ -76,7 +76,7 @@ function mountFooter() {
       </div>
     </div>
   </div>
-  <div class="footer-bottom">© ${new Date().getFullYear()} TEGSA Iluminación · Todos los derechos reservados</div>`;
+  <div class="footer-bottom">© ${new Date().getFullYear()} TEGSA Iluminación · Todos los derechos reservados <span id="siteVersion" class="site-version"></span></div>`;
   document.body.appendChild(f);
 }
 
@@ -91,6 +91,20 @@ function mountWhatsApp() {
   document.body.appendChild(a);
 }
 
+function showVersion() {
+  fetch("/api/version").then((r) => r.json()).then((d) => {
+    const el = document.getElementById("siteVersion");
+    if (el) el.textContent = `· v${d.version} (${d.build})`;
+  }).catch(() => {});
+}
+
+function fillContactBand() {
+  const em = document.getElementById("cbEmail");
+  const wa = document.getElementById("cbWhats");
+  if (em) { em.textContent = CONTACTO.email; em.href = `mailto:${CONTACTO.email}`; }
+  if (wa) { wa.href = waLink(); }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  mountTopbar(); mountPromo(); mountFooter(); mountWhatsApp();
+  mountTopbar(); mountPromo(); mountFooter(); mountWhatsApp(); showVersion(); fillContactBand();
 });

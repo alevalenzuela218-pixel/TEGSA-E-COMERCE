@@ -39,6 +39,22 @@ async function main() {
       ADD COLUMN IF NOT EXISTS vistas bigint NOT NULL DEFAULT 0`);
     await pool.query(`ALTER TABLE product_variants
       ADD COLUMN IF NOT EXISTS imagen_url text`);
+    // --- ERP: proveedores, costo/margen, config ---
+    await pool.query(`CREATE TABLE IF NOT EXISTS proveedores(
+      id uuid primary key default gen_random_uuid(),
+      nombre text not null,
+      contacto text, email text, telefono text, notas text,
+      created_at timestamptz not null default now())`);
+    await pool.query(`ALTER TABLE product_variants
+      ADD COLUMN IF NOT EXISTS costo numeric(12,2)`);
+    await pool.query(`ALTER TABLE product_variants
+      ADD COLUMN IF NOT EXISTS margen_pct numeric(6,2)`);
+    await pool.query(`ALTER TABLE product_variants
+      ADD COLUMN IF NOT EXISTS proveedor_id uuid REFERENCES proveedores(id) ON DELETE SET NULL`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS config(
+      clave text primary key, valor text)`);
+    await pool.query(`INSERT INTO config(clave,valor) VALUES('costos_fijos_mensuales','0')
+      ON CONFLICT (clave) DO NOTHING`);
     await pool.query(`CREATE TABLE IF NOT EXISTS suscriptores(
       id uuid primary key default gen_random_uuid(),
       email text unique not null,

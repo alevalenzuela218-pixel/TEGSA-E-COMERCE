@@ -1,4 +1,4 @@
-const ars = (n) => Number(n) > 0
+var ars = (n) => Number(n) > 0
   ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(n)
   : "A confirmar";
 

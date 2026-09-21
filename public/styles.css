@@ -2,8 +2,8 @@
   --ink:#1b1f24;--ink-soft:#4a525c;--ink-faint:#8b939d;--paper:#fbfbf8;--surface:#fff;
   --line:#e6e3db;--line-strong:#d5d1c7;--amber:#e39b2e;--amber-deep:#c07d16;--steel:#3a7897;
   --warm:#f4b657;--neutral:#e6d3ad;--cool:#9ecbe4;--ok:#4b7a5a;--warn:#b06a2c;
-  --radius:14px;--font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --display:"Space Grotesk",var(--font);--mono:"IBM Plex Mono",ui-monospace,monospace;
+  --radius:14px;--font:"Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --display:"Montserrat",var(--font);--mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media(prefers-color-scheme:dark){:root{--ink:#ecebe6;--ink-soft:#b3b8bf;--ink-faint:#767d86;
   --paper:#14171a;--surface:#1c2024;--line:#2b3036;--line-strong:#3a4048}}
@@ -654,3 +654,175 @@ body{background:#f7f7f4;color:#172029}
   .decision-strip div>span:last-child{grid-column:1/-1}
   .decision-strip a{grid-column:2;grid-row:2;align-self:center}
 }
+
+/* sello de versión en el footer */
+.site-version{opacity:.55;font-family:var(--mono);font-size:11px}
+
+/* ============================================================
+   ESTILO BAEL (con azul de marca TEGSA)
+   ============================================================ */
+:root{ --brand:#0e5a9e; --brand-deep:#0a3f72; --brand-tint:#e9f1f9; }
+@media(prefers-color-scheme:dark){ :root{ --brand:#57a6e6; --brand-deep:#2c7ac2; --brand-tint:#16232f; } }
+
+/* títulos bold negro mayúscula */
+.bael-title{font-family:var(--display);text-align:center;font-size:34px;font-weight:500;letter-spacing:.005em;text-transform:uppercase;margin:0 0 26px;color:var(--ink)}
+.bael-title b{font-weight:700}
+.bael-title.left{text-align:left;font-size:24px;margin-bottom:16px}
+@media(max-width:640px){.bael-title{font-size:26px}}
+
+/* botón Bael (pill azul) */
+.btn-bael{display:inline-block;background:var(--brand);color:#fff;font-weight:600;padding:13px 28px;border-radius:30px;text-decoration:none;border:none;cursor:pointer;transition:.18s;font-size:15px;align-self:flex-start}
+.btn-bael:hover{background:var(--brand-deep);transform:translateY(-2px);box-shadow:0 10px 22px -10px var(--brand)}
+
+/* hero carrusel */
+.hero-bael{max-width:1240px;margin:22px auto 0;padding:0 22px}
+.hero-bael .carousel{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.hero-bael .slides{position:relative;min-height:380px}
+.hero-bael .slide{position:absolute;inset:0;display:grid;grid-template-columns:1.05fr 1fr;opacity:0;transition:opacity .55s ease;pointer-events:none;animation:none;transform:none}
+.hero-bael .slide.active{position:relative;opacity:1;pointer-events:auto}
+.hero-bael .slide-img{background-size:cover;background-position:center;min-height:380px}
+.hero-bael .slide-body{padding:46px 52px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.hero-bael .kicker{color:var(--brand);font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;background:none;padding:0}
+.hero-bael h1{font-family:var(--display);font-size:36px;font-weight:500;line-height:1.08;letter-spacing:-.02em;margin:0;color:var(--ink);text-shadow:none}
+.hero-bael h1 b{font-weight:700;color:var(--brand)}
+.hero-bael p{color:var(--ink-soft);font-size:15.5px;line-height:1.55;margin:0;max-width:44ch}
+.car-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:2px solid var(--brand);background:color-mix(in srgb,var(--surface) 82%,transparent);color:var(--brand);font-size:22px;line-height:1;display:grid;place-items:center;cursor:pointer;z-index:3;transition:.15s}
+.car-nav:hover{background:var(--brand);color:#fff}
+.car-nav.prev{left:16px}.car-nav.next{right:16px}
+.dots{position:absolute;bottom:16px;left:0;right:0;display:flex;gap:8px;justify-content:center;z-index:3}
+.dots button{width:9px;height:9px;border-radius:50%;border:none;background:var(--line-strong);cursor:pointer;transition:.2s;padding:0}
+.dots button.on{background:var(--brand);width:26px;border-radius:5px}
+@media(max-width:820px){.hero-bael .slide{grid-template-columns:1fr}.hero-bael .slide-img{min-height:190px}.hero-bael .slide-body{padding:28px 26px}.hero-bael h1{font-size:27px}.car-nav{width:38px;height:38px}}
+
+/* NUESTROS PRODUCTOS — grilla de categorías */
+.products-bael{max-width:1240px;margin:52px auto 0;padding:0 22px}
+.products-bael .catcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.products-bael .catcard{display:flex;flex-direction:column;align-items:center;gap:12px;padding:26px 16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;text-align:center;transition:.2s cubic-bezier(.2,.7,.2,1);cursor:pointer}
+.products-bael .catcard:hover{border-color:var(--brand);box-shadow:0 14px 30px -18px var(--brand);transform:translateY(-5px)}
+.products-bael .catcard.active{border-color:var(--brand);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 40%,transparent)}
+.products-bael .cc-ic{width:64px;height:64px;display:grid;place-items:center;color:var(--ink-soft);background:none;border:none;transition:.2s}
+.products-bael .cc-ic svg{width:44px;height:44px}
+.products-bael .catcard:hover .cc-ic{color:var(--brand);transform:scale(1.06)}
+.products-bael .cc-nm{font-family:var(--display);font-size:13.5px;font-weight:600;text-transform:uppercase;letter-spacing:.02em;color:var(--brand);line-height:1.2}
+.products-bael .cc-n{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+
+/* NOSOTROS */
+.nosotros-bael{max-width:1240px;margin:52px auto 0;padding:0 22px}
+.nb-in{display:grid;grid-template-columns:1fr 1.2fr;gap:0;align-items:stretch;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.nb-img{min-height:320px;background-size:cover;background-position:center}
+.nb-txt{padding:38px 42px}
+.nb-list{list-style:none;padding:0;margin:0 0 22px}
+.nb-list li{display:flex;gap:12px;align-items:flex-start;padding:9px 0;font-size:15px;color:var(--ink-soft);line-height:1.5}
+.nb-list .chk{flex-shrink:0;width:24px;height:24px;border-radius:6px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px}
+@media(max-width:820px){.nb-in{grid-template-columns:1fr}.nb-img{min-height:170px}.nb-txt{padding:28px 26px}}
+
+/* franja de contacto azul */
+.contact-band{background:var(--brand);color:#fff;margin-top:52px}
+.cb-in{max-width:1000px;margin:0 auto;padding:42px 22px;display:flex;align-items:center;justify-content:center;gap:44px}
+.cb-item{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.cb-ic{font-size:26px}
+.cb-l{font-weight:700;letter-spacing:.06em;font-size:13.5px;opacity:.9}
+.cb-v{color:#fff;font-size:19px;text-decoration:none;font-family:var(--display);font-weight:600}
+.cb-v:hover{text-decoration:underline}
+.cb-sep{width:1px;height:64px;background:rgba(255,255,255,.35)}
+@media(max-width:640px){.cb-in{flex-direction:column;gap:22px}.cb-sep{width:120px;height:1px}}
+
+/* ajustes de coherencia (azul de marca) */
+.faq{margin-top:52px}
+.faq .fq summary::after{color:var(--brand)}
+.lead{margin-top:0}
+.lead .lead-in{background:linear-gradient(120deg,var(--brand-deep),var(--brand))}
+.lead .btn-bael{background:#fff;color:var(--brand)}
+.lead .btn-bael:hover{background:var(--brand-tint);color:var(--brand-deep)}
+.promobar{background:var(--brand-deep)}
+.brand .sub{color:var(--brand)}
+.hero-bael .carousel{margin:0;padding:0;max-width:none}
+
+/* ============================================================
+   ERP (panel de administración)
+   ============================================================ */
+body.erp{background:var(--paper)}
+.erp-shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.erp-side{background:var(--ink);color:var(--paper);display:flex;flex-direction:column;padding:20px 14px;position:sticky;top:0;height:100vh}
+.erp-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper);padding:4px 8px 18px}
+.erp-brand .logo{height:30px}
+.erp-brand span{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.04em;opacity:.9}
+.erp-nav{display:flex;flex-direction:column;gap:4px;flex:1}
+.erp-nav button{text-align:left;background:none;border:none;color:color-mix(in srgb,var(--paper) 78%,transparent);padding:11px 12px;border-radius:9px;font-size:13.5px;cursor:pointer;transition:.15s;font-weight:500}
+.erp-nav button:hover{background:rgba(255,255,255,.08);color:#fff}
+.erp-nav button.active{background:var(--brand);color:#fff}
+.erp-foot{padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+.erp-link{color:color-mix(in srgb,var(--paper) 70%,transparent);text-decoration:none;font-size:13px}
+.erp-main{padding:30px 34px;overflow:auto;max-height:100vh}
+.erp-h1{font-family:var(--display);font-size:24px;font-weight:600;margin:0 0 20px;letter-spacing:-.02em}
+.erp-h2{font-family:var(--display);font-size:17px;font-weight:600;margin:30px 0 12px}
+.erp-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.erp-actions{display:flex;gap:8px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi .n{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.02em}
+.kpi .l{font-size:12px;color:var(--ink-faint);margin-top:3px}
+.kpi.ok .n{color:var(--ok)} .kpi.warn .n{color:var(--warn)}
+.alert{background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 30%,var(--line));color:var(--warn);border-radius:10px;padding:12px 14px;font-size:13.5px;margin:6px 0 14px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card-box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.card-box h3{font-family:var(--display);font-size:15px;margin:0 0 8px}
+.card-box.highlight{border-color:var(--brand);background:var(--brand-tint)}
+.card-box .big{font-family:var(--display);font-size:22px;color:var(--brand)}
+.tbl-wrap{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:auto}
+.erp-tbl{width:100%;border-collapse:collapse;min-width:640px}
+.erp-tbl.mini{min-width:0}
+.erp-tbl th{text-align:left;font-size:11px;color:var(--ink-faint);font-weight:600;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+.erp-tbl td{padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+.erp-tbl tr:last-child td{border-bottom:none}
+.erp-tbl .sk{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+.erp-tbl .r{text-align:right}
+.gan{font-family:var(--mono);font-weight:600;color:var(--ok)}
+.in{padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper);color:var(--ink);font-size:13px;font-family:inherit}
+.in:focus{outline:none;border-color:var(--brand)}
+.in.num{width:96px;text-align:right;font-family:var(--mono)}
+.in.sm{width:66px} .in.xs{padding:4px 6px;font-size:12px;width:100%}
+select.prov{width:130px}
+.btn{padding:9px 15px;border-radius:9px;border:1px solid var(--brand);background:var(--brand);color:#fff;font-size:13.5px;font-weight:500;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--brand-deep)}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line-strong)}
+.btn.ghost:hover{border-color:var(--ink-faint);background:var(--paper)}
+.btn.xs{padding:5px 10px;font-size:12px}
+.btn.del{border-color:var(--line-strong);background:var(--surface);color:#c0492f}
+.inline{display:flex;gap:10px;align-items:center}
+.red{color:#c0492f} .amber{color:var(--warn)} .green{color:var(--ok)}
+/* pipeline */
+.pipeline{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:12px;overflow-x:auto;padding-bottom:6px}
+.pcol{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px;min-height:120px}
+.pcol-h{font-family:var(--display);font-size:12.5px;font-weight:600;padding:4px 6px 10px;display:flex;justify-content:space-between}
+.pcol-h span{background:var(--brand-tint);color:var(--brand);border-radius:20px;padding:0 8px;font-family:var(--mono);font-size:11px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px;margin-bottom:8px}
+.pc-top{display:flex;justify-content:space-between;align-items:center}
+.pc-top b{font-family:var(--display);font-size:14px}
+.pc-top .ch{font-size:10px;color:var(--ink-faint);text-transform:uppercase}
+.pc-cli{font-size:12px;color:var(--ink-soft);margin:4px 0 7px}
+/* simulador */
+.sim{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.sim label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink-soft)}
+.sim-out{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:13px;font-size:14px}
+/* modal form */
+.overlay{position:fixed;inset:0;z-index:80;background:rgba(20,23,26,.5);display:grid;place-items:center;padding:20px;opacity:0;pointer-events:none;transition:.2s}
+.overlay.on{opacity:1;pointer-events:auto}
+.overlay .modal{background:var(--surface);border-radius:16px;max-width:560px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
+.fm-head{padding:20px 24px 4px}.fm-head h2{font-family:var(--display);font-size:19px;margin:0}
+.fm-body{padding:16px 24px 4px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px}.fld.full{grid-column:1/-1}
+.fld label{font-size:12px;color:var(--ink-soft);font-weight:500}
+.fld input,.fld select,.fld textarea{padding:9px 11px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper);color:var(--ink);font-size:14px;font-family:inherit}
+.fld textarea{min-height:56px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--brand)}
+.fm-foot{padding:16px 24px 22px;display:flex;gap:10px;justify-content:flex-end}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:90;background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:11px;font-size:13.5px;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1}
+@media(max-width:900px){.erp-shell{grid-template-columns:1fr}.erp-side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px}.erp-nav{flex-direction:row;flex-wrap:wrap}.erp-main{max-height:none}.kpis{grid-template-columns:1fr 1fr}.cols2{grid-template-columns:1fr}.sim{grid-template-columns:1fr}.fm-body{grid-template-columns:1fr}}
+
+/* ERP: celda de imagen de producto */
+.imgcell{position:relative;display:inline-grid;place-items:center;width:46px;height:46px;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;cursor:pointer;background:var(--paper)}
+.imgcell .thumb{width:100%;height:100%;object-fit:cover}
+.imgcell .imgcam{position:absolute;bottom:1px;right:1px;font-size:11px;background:rgba(255,255,255,.85);border-radius:5px;padding:0 2px;line-height:1.3}
+.imgcell:hover{border-color:var(--brand)}

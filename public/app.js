@@ -1,4 +1,4 @@
-const ars = (n) => n > 0
+var ars = (n) => n > 0
   ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(n)
   : "Consultar precio";
 const glow = (b) => ({ calida: "#f4b657", neutra: "#e6d3ad", fria: "#9ecbe4" }[b] || "#cfd6dd");
@@ -113,7 +113,7 @@ function render(rows) {
         <span class="tag">${ubic}</span>${stockBadge(r.stock_qty)}${r.imagen_url ? `<img class="photo" src="${r.imagen_url}" alt="${r.nombre}" loading="lazy">` : lumSVG()}
       </div>
       <div class="body">
-        <div class="type">${r.tipo} · ${r.marca}</div>
+        <div class="type">${r.tipo}</div>
         <h4>${r.nombre}</h4>
         <div class="sku">${r.sku}</div>
         <div class="specs">${specs || '<span class="muted">Especificaciones en carga</span>'}</div>

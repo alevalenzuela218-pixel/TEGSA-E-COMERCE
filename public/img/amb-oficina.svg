@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="ob" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c3340"/><stop offset="1" stop-color="#345a70"/></linearGradient>
+<linearGradient id="op" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf7ff" stop-opacity=".9"/><stop offset="1" stop-color="#cfeaff" stop-opacity="0"/></linearGradient></defs>
+<rect width="640" height="480" fill="url(#ob)"/>
+<rect y="380" width="640" height="100" fill="#16262f"/>
+<g>
+<rect x="90" y="60" width="130" height="26" rx="5" fill="#f2fbff"/><path d="M90 86 L60 380 L250 380 L220 86 Z" fill="url(#op)"/>
+<rect x="420" y="60" width="130" height="26" rx="5" fill="#f2fbff"/><path d="M420 86 L390 380 L580 380 L550 86 Z" fill="url(#op)"/>
+</g>
+<rect x="70" y="320" width="150" height="60" rx="6" fill="#1a2c36"/>
+<rect x="410" y="320" width="150" height="60" rx="6" fill="#1a2c36"/>
+<rect x="250" y="330" width="130" height="50" rx="6" fill="#1a2c36"/>
+<circle cx="145" cy="300" r="10" fill="#22333d"/><circle cx="485" cy="300" r="10" fill="#22333d"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="lw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2c1a"/><stop offset="1" stop-color="#5a4326"/></linearGradient>
+<radialGradient id="lg" cx="50%" cy="34%" r="42%"><stop offset="0" stop-color="#ffd98a" stop-opacity=".95"/><stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></radialGradient>
+<linearGradient id="lc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe6ad" stop-opacity=".8"/><stop offset="1" stop-color="#ffe6ad" stop-opacity="0"/></linearGradient></defs>
+<rect width="640" height="480" fill="url(#lw)"/>
+<rect y="360" width="640" height="120" fill="#2c2010"/>
+<rect x="60" y="70" width="520" height="300" fill="none"/>
+<line x1="320" y1="0" x2="320" y2="120" stroke="#20160a" stroke-width="4"/>
+<path d="M288 120 h64 l-10 34 h-44 z" fill="#1c1408"/>
+<circle cx="320" cy="168" r="15" fill="#fff2d0"/>
+<circle cx="320" cy="158" r="120" fill="url(#lg)"/>
+<path d="M320 178 L200 360 L440 360 Z" fill="url(#lc)"/>
+<rect x="90" y="300" width="150" height="70" rx="10" fill="#241a0c"/>
+<rect x="90" y="270" width="150" height="40" rx="10" fill="#2e2210"/>
+<rect x="430" y="250" width="110" height="120" rx="6" fill="#241a0c"/>
+<circle cx="485" cy="230" r="26" fill="#3c5a3a"/>
+<rect x="150" y="120" width="90" height="120" rx="4" fill="#2a1f0f" opacity=".7"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="ib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#232a30"/><stop offset="1" stop-color="#3a444c"/></linearGradient>
+<linearGradient id="ic" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf2ff" stop-opacity=".85"/><stop offset="1" stop-color="#cfe0ff" stop-opacity="0"/></linearGradient></defs>
+<rect width="640" height="480" fill="url(#ib)"/>
+<rect y="380" width="640" height="100" fill="#1a2026"/>
+<path d="M0 60 L640 60 M0 60 L60 20 L580 20 L640 60" stroke="#151a1f" stroke-width="4" fill="none"/>
+<g>
+<line x1="180" y1="60" x2="180" y2="120" stroke="#12171c" stroke-width="3"/><path d="M156 120 h48 l6 14 a30 30 0 0 1 -60 0 z" fill="#12171c"/><circle cx="180" cy="140" r="10" fill="#f2f8ff"/><path d="M180 148 L100 380 L260 380 Z" fill="url(#ic)"/>
+<line x1="420" y1="60" x2="420" y2="120" stroke="#12171c" stroke-width="3"/><path d="M396 120 h48 l6 14 a30 30 0 0 1 -60 0 z" fill="#12171c"/><circle cx="420" cy="140" r="10" fill="#f2f8ff"/><path d="M420 148 L340 380 L500 380 Z" fill="url(#ic)"/>
+</g>
+<rect x="70" y="320" width="90" height="60" fill="#20272d"/><rect x="480" y="310" width="100" height="70" fill="#20272d"/>
+</svg>

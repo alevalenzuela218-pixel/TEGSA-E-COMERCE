@@ -4,6 +4,9 @@ import { fileURLToPath } from "node:url";
 import "dotenv/config";
 import { q, pool } from "./db.js";
 import { syncMercadoLibre } from "./sync.js";
+import { VERSION, BUILD } from "./version.js";
+
+const STARTED_AT = new Date().toISOString();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -328,30 +331,49 @@ app.get("/api/admin/catalog-status", auth, async (_req, res) => {
 
 app.get("/api/admin/products", auth, async (_req, res) => {
   const { rows } = await q(`
-    SELECT p.id, p.sku_base AS sku, p.nombre, p.marca, t.nombre AS tipo,
-           v.id AS variant_id, v.precio, v.stock_qty, v.imagen_url
+    SELECT p.id, p.sku_base AS sku, p.nombre, p.marca, p.status, t.nombre AS tipo,
+           v.id AS variant_id, v.precio, v.costo, v.margen_pct, v.stock_qty, v.disponible_qty,
+           v.imagen_url, v.proveedor_id, pr.nombre AS proveedor
     FROM products p JOIN product_types t ON t.id=p.type_id
     JOIN product_variants v ON v.product_id=p.id
-    ORDER BY p.marca, p.nombre LIMIT 1000`);
+    LEFT JOIN proveedores pr ON pr.id = v.proveedor_id
+    ORDER BY p.marca, p.nombre LIMIT 2000`);
   res.json(rows);
 });
 
 // editar precio/stock: dispara los triggers de outbox (price.changed / stock via movimiento)
 app.patch("/api/admin/variant/:id", auth, async (req, res) => {
   try {
-    const { precio, stock, imagen_url } = req.body;
-    if (precio != null)
-      await q("UPDATE product_variants SET precio=$1 WHERE id=$2", [precio, req.params.id]);
+    const { precio, stock, imagen_url, costo, margen_pct, proveedor_id } = req.body;
+    const id = req.params.id;
+
+    if (costo !== undefined)
+      await q("UPDATE product_variants SET costo=$1 WHERE id=$2", [costo === "" ? null : costo, id]);
+    if (margen_pct !== undefined)
+      await q("UPDATE product_variants SET margen_pct=$1 WHERE id=$2", [margen_pct === "" ? null : margen_pct, id]);
+    if (proveedor_id !== undefined)
+      await q("UPDATE product_variants SET proveedor_id=$1 WHERE id=$2", [proveedor_id || null, id]);
+
+    if (precio != null && precio !== "") {
+      // precio explícito (override manual)
+      await q("UPDATE product_variants SET precio=$1 WHERE id=$2", [precio, id]);
+    } else if (costo !== undefined || margen_pct !== undefined) {
+      // recalcular precio de venta a partir de costo + % de ganancia (markup)
+      await q(`UPDATE product_variants
+               SET precio = ROUND(COALESCE(costo,0) * (1 + COALESCE(margen_pct,0)/100.0), 2)
+               WHERE id=$1 AND costo IS NOT NULL AND margen_pct IS NOT NULL`, [id]);
+    }
+
     if (imagen_url !== undefined)
-      await q("UPDATE product_variants SET imagen_url=$1 WHERE id=$2", [imagen_url || null, req.params.id]);
-    if (stock != null) {
-      const cur = await q("SELECT stock_qty FROM product_variants WHERE id=$1", [req.params.id]);
+      await q("UPDATE product_variants SET imagen_url=$1 WHERE id=$2", [imagen_url || null, id]);
+    if (stock != null && stock !== "") {
+      const cur = await q("SELECT stock_qty FROM product_variants WHERE id=$1", [id]);
       const delta = parseInt(stock) - (cur.rows[0]?.stock_qty ?? 0);
       if (delta !== 0)
-        await q(`INSERT INTO stock_movements(variant_id,quantity,reason) VALUES($1,$2,'ajuste')`,
-          [req.params.id, delta]);
+        await q(`INSERT INTO stock_movements(variant_id,quantity,reason) VALUES($1,$2,'ajuste')`, [id, delta]);
     }
-    res.json({ ok: true });
+    const upd = await q("SELECT precio, costo, margen_pct FROM product_variants WHERE id=$1", [id]);
+    res.json({ ok: true, ...upd.rows[0] });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "No se pudo guardar." });
@@ -447,6 +469,117 @@ app.get("/api/admin/analytics", auth, async (_req, res) => {
 });
 
 // Health check para Render / monitoreo
+// ============================================================
+//  ERP (protegido): proveedores, finanzas, stock, pipeline, config
+// ============================================================
+app.get("/api/admin/proveedores", auth, async (_req, res) => {
+  try {
+    const { rows } = await q(`SELECT p.id,p.nombre,p.contacto,p.email,p.telefono,p.notas,
+      COUNT(v.id)::int AS productos
+      FROM proveedores p LEFT JOIN product_variants v ON v.proveedor_id=p.id
+      GROUP BY p.id ORDER BY p.nombre`);
+    res.json(rows);
+  } catch (e) { res.status(500).json({ error: "No se pudieron cargar los proveedores." }); }
+});
+app.post("/api/admin/proveedores", auth, async (req, res) => {
+  try {
+    const { nombre, contacto, email, telefono, notas } = req.body || {};
+    if (!nombre) return res.status(400).json({ error: "Falta el nombre del proveedor" });
+    const { rows } = await q(`INSERT INTO proveedores(nombre,contacto,email,telefono,notas)
+      VALUES($1,$2,$3,$4,$5) RETURNING id`, [nombre, contacto || null, email || null, telefono || null, notas || null]);
+    res.json({ ok: true, id: rows[0].id });
+  } catch (e) { res.status(500).json({ error: "No se pudo guardar el proveedor." }); }
+});
+app.patch("/api/admin/proveedores/:id", auth, async (req, res) => {
+  try {
+    const { nombre, contacto, email, telefono, notas } = req.body || {};
+    await q(`UPDATE proveedores SET nombre=COALESCE($1,nombre),contacto=$2,email=$3,telefono=$4,notas=$5 WHERE id=$6`,
+      [nombre || null, contacto || null, email || null, telefono || null, notas || null, req.params.id]);
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: "No se pudo actualizar." }); }
+});
+app.delete("/api/admin/proveedores/:id", auth, async (req, res) => {
+  try { await q(`DELETE FROM proveedores WHERE id=$1`, [req.params.id]); res.json({ ok: true }); }
+  catch (e) { res.status(500).json({ error: "No se pudo eliminar." }); }
+});
+
+app.get("/api/admin/config", auth, async (_req, res) => {
+  const { rows } = await q(`SELECT clave,valor FROM config`);
+  res.json(Object.fromEntries(rows.map((r) => [r.clave, r.valor])));
+});
+app.post("/api/admin/config", auth, async (req, res) => {
+  try {
+    for (const [k, v] of Object.entries(req.body || {}))
+      await q(`INSERT INTO config(clave,valor) VALUES($1,$2) ON CONFLICT(clave) DO UPDATE SET valor=EXCLUDED.valor`, [k, String(v)]);
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: "No se pudo guardar la configuración." }); }
+});
+
+// Finanzas: costo, rendimiento y punto de equilibrio
+app.get("/api/admin/finanzas", auth, async (_req, res) => {
+  try {
+    const cfg = await q(`SELECT valor FROM config WHERE clave='costos_fijos_mensuales'`);
+    const fijos = parseFloat(cfg.rows[0]?.valor || "0") || 0;
+    const agg = await q(`
+      SELECT COUNT(*) FILTER (WHERE costo>0)::int AS con_costo,
+             COUNT(*)::int AS total,
+             COALESCE(SUM(costo*stock_qty) FILTER (WHERE costo>0),0) AS stock_costo,
+             COALESCE(SUM(precio*stock_qty) FILTER (WHERE costo>0),0) AS stock_venta,
+             COALESCE(SUM((precio-costo)*stock_qty) FILTER (WHERE costo>0),0) AS ganancia_potencial
+      FROM product_variants WHERE activo=true`);
+    const a = agg.rows[0];
+    const stock_venta = Number(a.stock_venta), ganancia = Number(a.ganancia_potencial);
+    const margen_prom = stock_venta > 0 ? ganancia / stock_venta : 0;
+    const punto = margen_prom > 0 ? fijos / margen_prom : null;
+    res.json({
+      costos_fijos: fijos, con_costo: a.con_costo, total: a.total,
+      stock_costo: Number(a.stock_costo), stock_venta, ganancia_potencial: ganancia,
+      margen_promedio: margen_prom, punto_equilibrio_facturacion: punto,
+    });
+  } catch (e) { console.error(e); res.status(500).json({ error: "No se pudo calcular." }); }
+});
+
+// Stock: resumen, bajo stock y últimos movimientos
+app.get("/api/admin/stock", auth, async (_req, res) => {
+  try {
+    const resumen = await q(`
+      SELECT COUNT(*)::int AS variantes, COALESCE(SUM(stock_qty),0)::int AS unidades,
+             COUNT(*) FILTER (WHERE stock_qty=0)::int AS sin_stock,
+             COUNT(*) FILTER (WHERE stock_qty>0 AND stock_qty<10)::int AS bajo_stock,
+             COALESCE(SUM(costo*stock_qty) FILTER (WHERE costo>0),0) AS valor_costo,
+             COALESCE(SUM(precio*stock_qty),0) AS valor_venta
+      FROM product_variants WHERE activo=true`);
+    const bajo = await q(`SELECT p.nombre, p.sku_base AS sku, v.stock_qty
+      FROM product_variants v JOIN products p ON p.id=v.product_id
+      WHERE v.activo=true AND v.stock_qty<10 ORDER BY v.stock_qty ASC LIMIT 40`);
+    const movs = await q(`SELECT sm.quantity, sm.reason, sm.created_at, p.nombre
+      FROM stock_movements sm JOIN product_variants v ON v.id=sm.variant_id
+      JOIN products p ON p.id=v.product_id ORDER BY sm.created_at DESC LIMIT 40`);
+    res.json({ resumen: resumen.rows[0], bajo_stock: bajo.rows, movimientos: movs.rows });
+  } catch (e) { console.error(e); res.status(500).json({ error: "No se pudo cargar el stock." }); }
+});
+
+// Pipeline de ventas: pedidos por estado + consultas (leads)
+app.get("/api/admin/pipeline", auth, async (_req, res) => {
+  try {
+    const orders = await q(`SELECT id,channel,status,cliente_nombre,total,created_at
+      FROM orders ORDER BY created_at DESC LIMIT 300`);
+    const consultas = await q(`SELECT id,nombre,tipo_proyecto,estado,created_at
+      FROM consultas ORDER BY created_at DESC LIMIT 200`);
+    res.json({ orders: orders.rows, consultas: consultas.rows });
+  } catch (e) { res.status(500).json({ error: "No se pudo cargar el pipeline." }); }
+});
+app.patch("/api/admin/order/:id", auth, async (req, res) => {
+  try {
+    await q(`UPDATE orders SET status=$1 WHERE id=$2`, [req.body?.status, req.params.id]);
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: "No se pudo actualizar el pedido." }); }
+});
+
+// Sello de versión: abrí /api/version en tu web para saber qué código está live.
+app.get("/api/version", (_req, res) =>
+  res.json({ version: VERSION, build: BUILD, started_at: STARTED_AT }));
+
 app.get("/healthz", async (_req, res) => {
   try { await q("SELECT 1"); res.json({ ok: true }); }
   catch { res.status(500).json({ ok: false }); }
